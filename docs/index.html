@@ -131,26 +131,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapters/cooperation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Cooperation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapters/time.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The psychology of time, climate change, and human behavior</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">The psychology of time, climate change, and human behavior</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/motivated_reasoning_misinformation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Factors in Climate Change Belief Formation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Factors in Climate Change Belief Formation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/interventions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Climate Change Interventions: Behaviors, Attitudes, and Beliefs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Climate Change Interventions: Behaviors, Attitudes, and Beliefs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/game_theory.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Game Theory of Climate Change</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Game Theory of Climate Change</span></span></a>
   </div>
 </li>
     </ul>
@@ -211,11 +217,12 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><a href="./chapters/psychology-climate-change.html">1. Preface from the instructors: Teaching the Psychology of the Climate Crisis.</a></li>
 <li><a href="./chapters/behavior_change.html">2. Correlates of collective behavioral engagement</a></li>
-<li><a href="./chapters/social_identity.html">3. Identifying with the climate crisis: Understanding the influences of social identities on climate change belief and attitudes</a></li>
-<li><a href="./chapters/time.html">4. The psychology of time, climate change, and human behavior</a></li>
-<li><a href="./chapters/motivated_reasoning_misinformation.html">5. Factors in Climate Change Belief Formation</a></li>
-<li><a href="./chapters/game_theory.html">6. Game Theory of Climate Change</a></li>
-<li><a href="./chapters/interventions.html">7. Climate Change Interventions: Behaviors, Attitudes, and Beliefs</a></li>
+<li><a href="./chapters/cooperation.html">3. Cooperation.</a></li>
+<li><a href="./chapters/social_identity.html">4. Identifying with the climate crisis: Understanding the influences of social identities on climate change belief and atttudes</a></li>
+<li><a href="./chapters/time.html">5. The psychology of time, climate change, and human behavior</a></li>
+<li><a href="./chapters/motivated_reasoning_misinformation.html">6. Factors in Climate Change Belief Formation</a></li>
+<li><a href="./chapters/game_theory.html">7. Game Theory of Climate Change</a></li>
+<li><a href="./chapters/interventions.html">8. Climate Change Interventions: Behaviors, Attitudes, and Beliefs</a></li>
 </ul>
 <p>This book was generated using <a href="https://quarto.org">Quarto</a>.</p>
 <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a><br>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
@@ -343,6 +350,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
   const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
     if (id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
@@ -355,6 +372,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return note.innerHTML;
       }
     } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
       return note.innerHTML;
     }
   }
@@ -374,7 +396,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         const note = window.document.getElementById(id);
         if (note !== null) {
           try {
-            const html = processXRef(id, note);
+            const html = processXRef(id, note.cloneNode(true));
             instance.setContent(html);
           } finally {
             instance.enable();
